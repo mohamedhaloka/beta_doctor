@@ -14,11 +14,10 @@ class ChatListPage extends StatefulWidget {
 }
 
 class _ChatListPageState extends State<ChatListPage> {
-
   FirebaseFirestore cloudFireStore = FirebaseFirestore.instance;
 
   bool loading = true;
-  late int userId;
+  int? userId;
 
   List<ChatModel> chats = [];
   @override
@@ -31,7 +30,7 @@ class _ChatListPageState extends State<ChatListPage> {
     loading = true;
     setState(() {});
     await getUserId();
-    await getChats();
+    // await getChats();
     loading = false;
     setState(() {});
   }
@@ -39,18 +38,6 @@ class _ChatListPageState extends State<ChatListPage> {
   Future<void> getUserId() async {
     userId = await SharedHandler.instance
         ?.getData(key: SharedKeys().user, valueType: ValueType.map)['id'];
-  }
-
-  Future<void> getChats() async {
-    QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore
-        .instance
-        .collection('Chats')
-        .where('doctorId', isEqualTo: userId)
-        .get();
-
-    for (var data in querySnapshot.docs) {
-      chats.add(ChatModel.fromFireStore(data));
-    }
   }
 
   @override
@@ -77,19 +64,35 @@ class _ChatListPageState extends State<ChatListPage> {
             height: 0,
             color: Theme.of(context).dividerColor,
           ),
-          Expanded(
-            child: loading
-                ? Center(
-              child: CircularProgressIndicator(
-                color: Theme.of(context).colorScheme.primary,
-              ),
-            )
-                : ListView.separated(
-              itemBuilder: (_, int index) => ChatPersonCard(chats[index]),
-              separatorBuilder: (_, __) => const Divider(),
-              itemCount: chats.length,
+          if (userId != null)
+            Expanded(
+              child: StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection('Chats')
+                      .where('doctorId', isEqualTo: userId)
+                      .snapshots(),
+                  builder: (_, AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: CircularProgressIndicator(
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      );
+                    } else {
+                      chats.clear();
+                      for (var data in snapshot.data!.docs) {
+                        chats.add(ChatModel.fromFireStore(data));
+                      }
+
+                      return ListView.separated(
+                        itemBuilder: (_, int index) =>
+                            ChatPersonCard(chats[index]),
+                        separatorBuilder: (_, __) => const Divider(),
+                        itemCount: chats.length,
+                      );
+                    }
+                  }),
             ),
-          ),
         ],
       ),
     );

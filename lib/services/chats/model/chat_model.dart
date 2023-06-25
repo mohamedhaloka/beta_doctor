@@ -39,7 +39,7 @@ class ChatModel {
         doctorPhoto: document.get(doctorPhotoKey),
         lastMessage: document.get(lastMessageKey),
         doctorName: document.get(doctorNameKey),
-        patentName: document.get(doctorPhotoKey),
+        patentName: document.get(patentNameKey),
         lastMessageSenderId: document.get(lastMessageSenderIdKey),
         doctorId: document.get(doctorIdKey),
         patentPhoto: document.get(patentPhotoKey),

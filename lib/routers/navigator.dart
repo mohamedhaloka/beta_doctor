@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../base/pages/base_page.dart';
 import '../services/chat_room/blocs/chat_room_bloc.dart';
+import '../services/chats/model/chat_model.dart';
 import '../services/splash/pages/splash_page.dart';
 
 const begin = Offset(0.0, 1.0);
@@ -44,12 +45,17 @@ class CustomNavigator {
       case Routes.home:
         return _pageRoute(const BasePage());
       case Routes.videoCall:
+        final ChatModel chatModel = settings.arguments as ChatModel;
+        return _pageRoute(const VideoCallPage());
+      case Routes.audioCall:
+        final ChatModel chatModel = settings.arguments as ChatModel;
         return _pageRoute(const VideoCallPage());
       case Routes.chatRoom:
+        final List args = settings.arguments as List;
         return _pageRoute(
-          BlocProvider(
-            create: (context) => ChatRoomBloc(),
-            child: const ChatRoomPage(),
+          ChatRoomPage(
+            args[0],
+            userId: args[1],
           ),
         );
     }

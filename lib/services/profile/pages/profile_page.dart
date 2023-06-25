@@ -11,6 +11,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../base/base_state.dart';
 import '../../../base/utils.dart';
 import '../../../base/widgets/fields/text_input_field.dart';
+import '../../../handlers/shared_handler.dart';
+import '../../../routers/routers.dart';
 import '../../../utilities/components/custom_btn.dart';
 import '../blocs/cubit/get_profile_cubit.dart';
 import '../blocs/cubit/update_profile_cubit.dart';
@@ -465,29 +467,45 @@ class _ProfilePageState extends State<ProfilePage> {
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),
                                 ),
-                          BlocBuilder<UpdateProfileCubit,
-                              BaseState<UserModel>>(
-                            bloc: updateProfileCubit,
-                            builder: (BuildContext context,
-                                BaseState<UserModel> state)=> CustomBtn(
+                                BlocBuilder<UpdateProfileCubit,
+                                    BaseState<UserModel>>(
+                                  bloc: updateProfileCubit,
+                                  builder: (BuildContext context,
+                                          BaseState<UserModel> state) =>
+                                      CustomBtn(
                                     buttonColor: theme.colorScheme.primary,
                                     text: "تعديل الحساب",
                                     height: 40,
                                     loading: state.isInProgress,
                                     onTap: () {
-                                        DateTime newBirthday = DateTime(
-                                          year.text.toInt(),
-                                          month.text.toInt(),
-                                          day.text.toInt(),
-                                        );
-                                        updateProfileCubit.updateProfile(
-                                            name: name.text,
-                                            phone: phone.text,
-                                            birthday: newBirthday, bio: bio.text,);
-
+                                      DateTime newBirthday = DateTime(
+                                        year.text.toInt(),
+                                        month.text.toInt(),
+                                        day.text.toInt(),
+                                      );
+                                      updateProfileCubit.updateProfile(
+                                        name: name.text,
+                                        phone: phone.text,
+                                        birthday: newBirthday,
+                                        bio: bio.text,
+                                      );
                                     },
                                   ),
                                 ),
+                                const SizedBox(height: 12),
+                                CustomBtn(
+                                  buttonColor:
+                                      Theme.of(context).colorScheme.secondary,
+                                  text: "تسجيل خروج",
+                                  height: 40,
+                                  onTap: () {
+                                    SharedHandler.instance?.clear(
+                                      keys: [SharedKeys().user],
+                                    );
+                                    Navigator.pushReplacementNamed(
+                                        context, Routes.login);
+                                  },
+                                )
                               ],
                             )),
                       ]),

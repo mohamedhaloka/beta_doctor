@@ -29,7 +29,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> getUserName() async {
-
     userName = await SharedHandler.instance?.getData(
       key: SharedKeys().user,
       valueType: ValueType.map,
@@ -75,30 +74,30 @@ class _HomePageState extends State<HomePage> {
           children: [
             const SizedBox(height: 16),
             // if (userName != null)
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const CircleAvatar(
-                      radius: 21,
-                      backgroundImage: NetworkImage(
-                          "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"),
-                    ),
-                    const SizedBox(width: 16),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("مرحباً بك🖐",
-                            style: AppTextStyles.w500.copyWith(fontSize: 14)),
-                        Text("دكتور محمد",
-                            style: AppTextStyles.w700.copyWith(fontSize: 20)),
-                      ],
-                    ),
-                  ],
-                ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const CircleAvatar(
+                    radius: 21,
+                    backgroundImage: NetworkImage(
+                        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"),
+                  ),
+                  const SizedBox(width: 16),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("مرحباً بك🖐",
+                          style: AppTextStyles.w500.copyWith(fontSize: 14)),
+                      Text("دكتور محمد",
+                          style: AppTextStyles.w700.copyWith(fontSize: 20)),
+                    ],
+                  ),
+                ],
               ),
+            ),
             const SizedBox(height: 16),
             Divider(
               height: 0,
@@ -124,7 +123,9 @@ class _HomePageState extends State<HomePage> {
                             itemBuilder: (_, int index) => Ink(
                               color: Colors.grey[50],
                               child: ListTile(
-                                title: Text('مكالمة فيديو'),
+                                title: Text(
+                                    homeModel!.appointments![index].status ??
+                                        ''),
                                 subtitle: Row(
                                   children: [
                                     Icon(
@@ -148,25 +149,9 @@ class _HomePageState extends State<HomePage> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: const [
-                                      InkWell(
-                                        child: CircleAvatar(
-                                          radius: 20,
-                                          backgroundColor: Colors.red,
-                                          child: Icon(
-                                            Icons.close,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                      InkWell(
-                                        child: CircleAvatar(
-                                          radius: 20,
-                                          backgroundColor: Colors.green,
-                                          child: Icon(
-                                            Icons.check,
-                                            color: Colors.white,
-                                          ),
-                                        ),
+                                      Text('تواصل'),
+                                      Icon(
+                                        CupertinoIcons.arrow_left,
                                       ),
                                     ],
                                   ),

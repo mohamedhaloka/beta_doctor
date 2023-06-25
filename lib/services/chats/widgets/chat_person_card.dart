@@ -27,7 +27,7 @@ class ChatPersonCard extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 24,
-                  backgroundImage: NetworkImage(chat.doctorPhoto),
+                  backgroundImage: NetworkImage(chat.patentPhoto),
                 ),
                 const SizedBox(width: 16),
                 Expanded(
@@ -35,7 +35,7 @@ class ChatPersonCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(chat.doctorName,
+                      Text(chat.patentName,
                           style: AppTextStyles.w500.copyWith(fontSize: 16)),
                       const SizedBox(height: 4),
                       Text(chat.lastMessage,
