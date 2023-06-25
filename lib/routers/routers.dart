@@ -7,4 +7,5 @@ abstract class Routes {
   static const String chatRoom = "chat_room";
   static const String videoCall = "video_call";
   static const String audioCall = "audio_call";
+  static const String patentDetails = "patent_details";
 }

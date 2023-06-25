@@ -3,11 +3,10 @@ import 'package:beta_doctor/services/audio_call/pages/video_call_page.dart';
 import 'package:beta_doctor/services/authentication/login/pages/login.dart';
 import 'package:beta_doctor/services/authentication/register/pages/registration_page.dart';
 import 'package:beta_doctor/services/chat_room/pages/chat_room_page.dart';
+import 'package:beta_doctor/services/patent_details/pages/patent_details_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../base/pages/base_page.dart';
-import '../services/chat_room/blocs/chat_room_bloc.dart';
 import '../services/chats/model/chat_model.dart';
 import '../services/splash/pages/splash_page.dart';
 
@@ -44,6 +43,8 @@ class CustomNavigator {
         return _pageRoute(const LoginPage());
       case Routes.home:
         return _pageRoute(const BasePage());
+      case Routes.patentDetails:
+        return _pageRoute(const PatentDetailsPage());
       case Routes.videoCall:
         final ChatModel chatModel = settings.arguments as ChatModel;
         return _pageRoute(const VideoCallPage());

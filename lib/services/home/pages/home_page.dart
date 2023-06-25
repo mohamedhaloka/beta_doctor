@@ -1,4 +1,7 @@
+import 'package:beta_doctor/routers/routers.dart';
+import 'package:beta_doctor/services/chats/model/chat_model.dart';
 import 'package:beta_doctor/services/home/models/home_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -91,7 +94,7 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Text("مرحباً بك🖐",
                           style: AppTextStyles.w500.copyWith(fontSize: 14)),
-                      Text("دكتور محمد",
+                      Text("دكتوره Esraa",
                           style: AppTextStyles.w700.copyWith(fontSize: 20)),
                     ],
                   ),
@@ -123,6 +126,23 @@ class _HomePageState extends State<HomePage> {
                             itemBuilder: (_, int index) => Ink(
                               color: Colors.grey[50],
                               child: ListTile(
+                                onTap: () async {
+                                  final document = await FirebaseFirestore
+                                      .instance
+                                      .collection('Chats')
+                                      .doc('3-4')
+                                      .get();
+
+                                  ChatModel chat =
+                                      ChatModel.fromFireStore(document);
+
+                                  if (!mounted) return;
+                                  Navigator.pushNamed(context, Routes.chatRoom,
+                                      arguments: [
+                                        chat,
+                                        chat.doctorId,
+                                      ]);
+                                },
                                 title: Text(
                                     homeModel!.appointments![index].status ??
                                         ''),
@@ -160,7 +180,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                             separatorBuilder: (_, __) =>
                                 const SizedBox(height: 12),
-                            itemCount: homeModel!.appointments?.length ?? 0,
+                            itemCount: 1,
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                           ),
@@ -176,7 +196,10 @@ class _HomePageState extends State<HomePage> {
                             itemBuilder: (_, int index) => Ink(
                               color: Colors.grey[50],
                               child: ListTile(
-                                onTap: () {},
+                                onTap: () {
+                                  Navigator.of(context)
+                                      .pushNamed(Routes.patentDetails);
+                                },
                                 title: Text(
                                     homeModel!.patients![index].name ?? ''),
                                 subtitle: Padding(

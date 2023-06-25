@@ -74,6 +74,7 @@ dependencies:
 
   # Video and Voice Call
   agora_rtc_engine: ^6.2.0
+  url_launcher: ^6.1.11
 
 
 dev_dependencies:
